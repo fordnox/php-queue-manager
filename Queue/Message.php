@@ -2,7 +2,7 @@
 /*
  * This file is part of Queue Manager.
  *
- * (c) 2011 SparkleBit <info@sparklebit.com>
+ * (c) 2011 Andrius Putna <andrius.putna@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
