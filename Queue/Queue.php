@@ -10,13 +10,10 @@
 
 namespace Queue;
 
-use Queue\Message;
-use Queue\Manager;
-
 /**
  * Queue class
  * 
- * Main Queue class reprents One Queue and is a Proxy for all queues.
+ * Main Queue class represents One Queue and is a Proxy for all queues.
  * 
  * @author Andrius Putna <andrius.putna@gmail.com>
  */
@@ -50,21 +47,22 @@ class Queue
 
     /**
      * Return Queue manager
-     * 
-     * @return Manager 
+     *
+     * @throws Exception
+     * @return Manager
      */
     private function getManager()
     {
         if(!$this->manager) {
-            throw new \Exception('Queue manager was not set');
+            throw new Exception('Queue manager was not set');
         }
         return $this->manager;
     }
     
     /**
-     * Return queue identificator
+     * Return queue id
      * 
-     * @param string
+     * @return string
      */
     public function getName()
     {
@@ -83,7 +81,8 @@ class Queue
     /**
      * Send message to Queue
      * 
-     * @param Message $message 
+     * @param Message $message
+     * @return bool
      */
     public function send(Message $message)
     {
@@ -95,11 +94,10 @@ class Queue
      * 
      * @param int $max 
      * @param int $timeout 
-     * @return void
      */
     public function execute($max = 50, $timeout = self::RECEIVE_TIMEOUT_DEFAULT)
     {
-        return $this->getManager()->executeQueue($this, $max, $timeout);
+        $this->getManager()->executeQueue($this, $max, $timeout);
     }
     
     /**

@@ -2,6 +2,8 @@
 
 class Queue_ManagerTest extends PHPUnit_Framework_TestCase
 {
+    private $m;
+
     public function setUp()
     {
         $dbh = getConnection();

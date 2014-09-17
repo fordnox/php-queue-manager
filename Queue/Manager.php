@@ -10,10 +10,6 @@
 
 namespace Queue;
 
-use Queue\Exception;
-use Queue\Queue;
-use Queue\Message;
-
 /**
  * Queue Manager class
  * 
@@ -24,7 +20,7 @@ use Queue\Message;
 class Manager
 {
     /**
-     * @var $_pdo PDO
+     * @var $_pdo \PDO
      */
     protected $_pdo;
 
@@ -35,8 +31,9 @@ class Manager
 
     /**
      * Configure database
-     * 
-     * @return \PDO 
+     *
+     * @throws Exception
+     * @return \PDO
      */
     public function getDb()
     {
@@ -90,18 +87,19 @@ class Manager
         }
         return $list;
     }
-    
+
     /**
      * Select unselected messages from queue
-     * 
+     *
      * @param Queue $queue
      * @param int $max
      * @param int $timeout
-     * @return \ArrayObject 
+     * @throws Exception
+     * @return \ArrayObject
      */
     private function receiveQueueMessages(Queue $queue, $max, $timeout)
     {
-        $msgs      = array();
+        $messages      = array();
         $microtime = microtime(true); // cache microtime
         $db        = $this->getDb();
         $qid       = $this->getQueueId($queue->getName());
@@ -138,7 +136,7 @@ class Manager
                     $updated = $stmt->execute();
                     
                     if ($updated) {
-                        $msgs[] = $data;
+                        $messages[] = $data;
                     }
                 }
                 $db->commit();
@@ -149,7 +147,7 @@ class Manager
         }
         
         $m = array();
-        foreach($msgs as $msg) {
+        foreach($messages as $msg) {
             $message = unserialize(base64_decode($msg['body']));
             if($message instanceof Message) {
                 $message->message_id = $msg['message_id'];
@@ -167,12 +165,8 @@ class Manager
      * @param int $max
      * @param int $timeout 
      */
-    public function executeQueue(Queue $queue, $max, $timeout)
+    public function executeQueue(Queue $queue, $max, $timeout = 30)
     {
-        if(null == $timeout) {
-            $timeout = self::RECEIVE_TIMEOUT_DEFAULT;
-        }
-        
         foreach($this->receiveQueueMessages($queue, $max, $timeout) as $message) {
             try {
                 $message->execute();
@@ -203,8 +197,8 @@ class Manager
      * Add new message to queue
      * 
      * @param Message $message
-     * @param type $name
-     * @return type 
+     * @param string $name
+     * @return bool
      */
     public function addMessageToQueue(Message $message, $name)
     {
@@ -227,13 +221,14 @@ class Manager
         $stmt->execute();
         return true;
     }
-    
+
     /**
      * Return new queue instance
-     * 
-     * @param type $name
-     * @param type $timeout
-     * @return Queue 
+     *
+     * @param string $name
+     * @param int $timeout
+     * @throws Exception
+     * @return Queue
      */
     public function getQueue($name, $timeout = null)
     {

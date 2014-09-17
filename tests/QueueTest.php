@@ -39,5 +39,6 @@ class Queue_QueueTest extends PHPUnit_Framework_TestCase
         $total = $this->m->getTotalMessages();
         $this->assertEquals(0, $total);
         $str = $this->q->__toString();
+        $this->assertInternalType('string', $str);
     }
 }

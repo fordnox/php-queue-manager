@@ -10,8 +10,6 @@
 
 namespace Queue;
 
-use Queue\Exception;
-
 /**
  * Message abstract class
  * 
