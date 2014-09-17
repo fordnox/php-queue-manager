@@ -1,7 +1,7 @@
 PHP Queue Manager and Task Executor
 =================
 
-[![Build Status][]](http://travis-ci.org/fordnox/php-queue-manager)
+[![Build Status](https://travis-ci.org/fordnox/php-queue-manager.svg)](https://travis-ci.org/fordnox/php-queue-manager)
 
 Queue manager - A simple, fast queue manager and tasks executor.
 Stack your tasks to queue and execute them later.
