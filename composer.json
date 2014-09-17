@@ -6,13 +6,17 @@
         "executor",
         "worker",
         "task",
-        "manager"
+        "manager",
+        "batch",
+        "batch processing",
+        "mass mailer",
+        "bulk mailer"
     ],
     "homepage": "http://github.com/fordnox/php-queue-manager",
     "type": "library",
     "author": "Andrius Putna",
     "license": "MIT",
-    "version": "0.1",
+    "version": "0.2",
     "require": {
         "php": ">=5.3.0",
         "ext-PDO": "*"
