@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>PHP Queue Manager by fordnox</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>PHP Queue Manager</h1>
+        <p>PHP Queue Manager and Task Executor</p>
+        <p class="view"><a href="https://github.com/fordnox/php-queue-manager">View the Project on GitHub <small>fordnox/php-queue-manager</small></a></p>
+        <ul>
+          <li><a href="https://github.com/fordnox/php-queue-manager/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/fordnox/php-queue-manager/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/fordnox/php-queue-manager">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="php-queue-manager-and-task-executor" class="anchor" href="#php-queue-manager-and-task-executor"><span class="octicon octicon-link"></span></a>PHP Queue Manager and Task Executor</h1>
+
+<p><a href="https://travis-ci.org/fordnox/php-queue-manager"><img src="https://travis-ci.org/fordnox/php-queue-manager.svg" alt="Build Status"></a></p>
+
+<p>Queue manager - A simple, fast queue manager and tasks executor.
+Stack your tasks to queue and execute them later.</p>
+
+<h1>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h1>
+
+<ul>
+<li>PHP &gt;5.3</li>
+<li>PDO</li>
+<li>Database backend (sqlite, sqlite memory, mysql, postgres, any PDO supported database)</li>
+</ul><h1>
+<a name="install-with-composer" class="anchor" href="#install-with-composer"><span class="octicon octicon-link"></span></a>Install with Composer</h1>
+
+<ul>
+<li>Install dependency</li>
+</ul><div class="highlight highlight-json"><pre><span class="p">{</span>
+    <span class="nt">"require"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"fordnox/php-queue-manager"</span><span class="p">:</span> <span class="s2">"0.1"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<ul>
+<li>Use included sqlite file (extra/queue.sqlite) for basic backend system to connect to via PDO</li>
+</ul><div class="highlight highlight-php"><pre><span class="nv">$dbh</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'sqlite:queue.sqlite'</span><span class="p">);</span>
+<span class="nv">$dbh</span><span class="o">-&gt;</span><span class="na">setAttribute</span><span class="p">(</span><span class="nx">\PDO</span><span class="o">::</span><span class="na">ATTR_ERRMODE</span><span class="p">,</span> <span class="nx">\PDO</span><span class="o">::</span><span class="na">ERRMODE_EXCEPTION</span> <span class="p">);</span>
+<span class="nv">$dbh</span><span class="o">-&gt;</span><span class="na">setAttribute</span><span class="p">(</span><span class="nx">\PDO</span><span class="o">::</span><span class="na">ATTR_DEFAULT_FETCH_MODE</span><span class="p">,</span> <span class="nx">\PDO</span><span class="o">::</span><span class="na">FETCH_ASSOC</span><span class="p">);</span>
+<span class="nv">$dbh</span><span class="o">-&gt;</span><span class="na">exec</span><span class="p">(</span><span class="nv">$structure</span><span class="p">);</span>
+</pre></div>
+
+<h1>
+<a name="example-queue" class="anchor" href="#example-queue"><span class="octicon octicon-link"></span></a>Example Queue</h1>
+
+<div class="highlight highlight-php"><pre>
+<span class="nv">$message</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\QueueExample\Dummy</span><span class="p">();</span>
+
+<span class="nv">$manager</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\Queue\Manager</span><span class="p">();</span>
+<span class="nv">$manager</span><span class="o">-&gt;</span><span class="na">setPdo</span><span class="p">(</span><span class="nv">$dbh</span><span class="p">);</span>
+<span class="nv">$manager</span><span class="o">-&gt;</span><span class="na">addMessageToQueue</span><span class="p">(</span><span class="nv">$message</span><span class="p">,</span> <span class="s1">'AmazonEmailsQueue'</span><span class="p">);</span>
+
+<span class="c1">// Usually this call should be executed via cron or some other worker</span>
+<span class="nv">$amazonEmails</span> <span class="o">=</span> <span class="nv">$manager</span><span class="o">-&gt;</span><span class="na">getQueue</span><span class="p">(</span><span class="s1">'AmazonEmailsQueue'</span><span class="p">);</span>
+<span class="nv">$amazonEmails</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+</pre></div>
+
+<h1>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>Todo</h1>
+
+<ul>
+<li>[ ] Write tests for all SQL backends</li>
+<li>[ ] Create simple Web Interface</li>
+</ul>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/fordnox">fordnox</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
