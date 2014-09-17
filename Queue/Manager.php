@@ -104,11 +104,11 @@ class Manager
 
                 $sql = "SELECT *
                         FROM message
-                        WHERE queue_id = ?
+                        WHERE queue_id = :queue_id
                         AND handle IS NULL OR timeout+" . (int)$timeout . " < " . (int)$microtime ."
-                        LIMIT ?";
+                        LIMIT ".$max;
                 $stmt = $db->prepare($sql);
-                $stmt->execute(array($qid, $max));
+                $stmt->execute(array('queue_id'=>$qid));
 
                 foreach ($stmt->fetchAll() as $data) {
                     $data['handle'] = md5(uniqid(rand(), true));
