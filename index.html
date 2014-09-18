@@ -35,6 +35,21 @@
 <p>Queue manager - A simple, fast queue manager and tasks executor.
 Stack your tasks to queue and execute them later.</p>
 
+<p>PHP Queue Manager is a very light component designed to be simple, fast and secure queue manager and executor for PHP.
+It is a way to manage asynchronous, potentially long-running PHP tasks such as
+API requests, database export/import operations, email sending, payment notification handlers, feed generation etc.</p>
+
+<p>Queue manager can be integrated to any PHP based application with minimum effort, because it does not depend on any framework.
+PDO extension is the only requirement.
+PHP Queue manager is for those who wants to have a queue running in less than a minute. No additional installation is required.</p>
+
+<p>You can have more than one queue manager running on a single application. Manager instances will always select unique messages from queue.
+Messages that fail to execute (throws Exception) will stay in queue. Exception message can be viewed in queue manager.
+Executor will try to execute failed message once again after timeout is reached.</p>
+
+<p>Component does not handle dependencies with other messages. That means that message in a queue knows nothing about other messages in queue.
+For those who searches for solution to this problem - Gearman is the way to go, but requires time for setup.</p>
+
 <h1>
 <a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h1>
 
@@ -92,6 +107,16 @@ Stack your tasks to queue and execute them later.</p>
       <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
     </footer>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-1553989-21");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
   </body>
 </html>
