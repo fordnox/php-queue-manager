@@ -112,7 +112,7 @@ class Manager
                 $sql = "SELECT *
                         FROM message
                         WHERE queue_id = :queue_id
-                        AND handle IS NULL OR timeout+" . (int)$timeout . " < " . (int)$microtime ."
+                        AND (handle IS NULL OR timeout+" . (int)$timeout . " < " . (int)$microtime .")
                         LIMIT ".$max;
                 $stmt = $db->prepare($sql);
                 $stmt->execute(array('queue_id'=>$qid));
@@ -126,8 +126,7 @@ class Manager
                                 timeout = :timeout
                             WHERE
                                 message_id = :id
-                                AND
-                                handle IS NULL OR timeout+" . (int)$timeout . " < " . (int)$microtime;
+                                (AND handle IS NULL OR timeout+" . (int)$timeout . " < " . (int)$microtime.")";
                     
                     $stmt = $db->prepare($sql);
                     $stmt->bindParam(':handle', $data['handle'], \PDO::PARAM_STR);
