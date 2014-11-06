@@ -126,8 +126,8 @@ class Manager
                                 timeout = :timeout
                             WHERE
                                 message_id = :id
-                                (AND handle IS NULL OR timeout+" . (int)$timeout . " < " . (int)$microtime.")";
-                    
+                                AND (handle IS NULL OR timeout+" . (int)$timeout . " < " . (int)$microtime.")";
+
                     $stmt = $db->prepare($sql);
                     $stmt->bindParam(':handle', $data['handle'], \PDO::PARAM_STR);
                     $stmt->bindParam(':id', $data['message_id'], \PDO::PARAM_STR);
@@ -142,7 +142,7 @@ class Manager
             }
         } catch (\Exception $e) {
             $db->rollBack();
-            throw new Exception($e->getMessage(), $e->getCode(), $e);
+            throw $e;
         }
         
         $m = array();
