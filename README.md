@@ -38,7 +38,7 @@ Install with Composer
 ```json
 {
     "require": {
-        "fordnox/php-queue-manager": "0.2"
+        "fordnox/php-queue-manager": "0.3"
     }
 }
 ```
